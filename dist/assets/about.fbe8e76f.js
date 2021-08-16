@@ -1,0 +1,1 @@
+import{d as a,o,b as s,p as t,a as d}from"./vendor.4fbc6252.js";t("data-v-4fb135ce");const e={id:"about"};d();var b=a({setup:a=>(a,t)=>(o(),s("div",e,"ablout page"))});b.__scopeId="data-v-4fb135ce";export default b;
