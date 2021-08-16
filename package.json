@@ -3,7 +3,7 @@
   "version": "0.0.1-alpha",
   "scripts": {
     "dev": "vite --host",
-    "build": "vue-tsc --noEmit && vite build --base=https://cdn.jsdelivr.net/gh/SunspotsInys/front@v0.0.1-alpha/",
+    "build": "vue-tsc --noEmit && vite build --base=https://cdn.jsdelivr.net/gh/SunspotsInys/front@v0.0.1-alpha/dist/",
     "serve": "vite preview"
   },
   "dependencies": {
