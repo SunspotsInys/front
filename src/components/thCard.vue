@@ -107,10 +107,4 @@ onMounted(() => {
         }
     }
 }
-
-@media screen and (max-width: 1024px) {
-    .th-card {
-        margin-left: 32px;
-    }
-}
 </style>

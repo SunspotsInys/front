@@ -1,5 +1,5 @@
 <template>
-    <div id="admin">
+    <div id="admin" class="mainpage" >
         <div id="sys-info"></div>
         <a-table :dataSource="postListData" :columns="postListColumns" :pagination="pagination">
             <template #name="{ text }">
@@ -97,7 +97,7 @@ let data2: Num[] = [
     { time: `${now.getMinutes()}:${now.getSeconds()}`, num: 0, type: 'Goroutine数量' }
 ];
 
-const ws = new WebSocket(import.meta.env.VITE_WS_URL+"/api/admin/sysinfo?token="+getToken());
+const ws = new WebSocket(import.meta.env.VITE_WS_URL + "/api/admin/sysinfo?token=" + getToken());
 {
     ws.onopen = (evt) => {
         ws.send("1");
@@ -115,7 +115,6 @@ const ws = new WebSocket(import.meta.env.VITE_WS_URL+"/api/admin/sysinfo?token="
             data2.shift();
         }
         now = new Date();
-        console.log(data1.length);
         const evtData = JSON.parse(evt.data);
         if (evtData instanceof Array) {
             evtData.forEach((elem) => {
@@ -123,12 +122,14 @@ const ws = new WebSocket(import.meta.env.VITE_WS_URL+"/api/admin/sysinfo?token="
                 data1.push({ time: elem.time, percent: elem.mem, name: '内存使用率' })
                 data2.push({ time: elem.time, num: elem.num, type: 'Goroutine数量' })
             })
-        } else {
+            dualAxes.render();
+        } else if (data2[data2.length - 1].time !== evtData.time) {
             data1.push({ time: evtData.time, percent: evtData.cpu, name: 'CPU使用率' })
             data1.push({ time: evtData.time, percent: evtData.mem, name: '内存使用率' })
             data2.push({ time: evtData.time, num: evtData.num, type: 'Goroutine数量' })
+            console.log(data1)
+            dualAxes.render()
         }
-        dualAxes.render();
     }
 }
 

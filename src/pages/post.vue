@@ -1,5 +1,5 @@
 <template>
-    <div id="post">
+    <div id="post" class="mainpage">
         <div class="header">
             <div class="title">{{ post.title }}</div>
             <div class="time">
