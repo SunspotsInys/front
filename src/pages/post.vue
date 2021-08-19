@@ -27,7 +27,6 @@ import "ant-design-vue/lib/spin/style/index.css"
 import { reactive, ref, watch } from "vue";
 import Vditor from 'vditor'
 
-
 interface Tag {
     id: string
     name: string
@@ -44,10 +43,10 @@ interface Post {
 }
 
 const route = useRoute()
-const colors = ["pink", "red",
-    "orange", "green", "cyan",
-    "blue", "purple"]
-let post: Post = reactive({
+
+const colors = ["pink", "red", "orange", "green", "cyan", "blue", "purple"]
+
+let post = reactive<Post>({
     id: "",
     top: 0,
     tags: [],
