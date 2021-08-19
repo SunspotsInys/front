@@ -21,9 +21,9 @@ interface Page {
 let pages: Page[] = reactive([]);
 
 pages.push({ path: "/", name: "首页" });
-pages.push({ path: "/tags", name: "标签" });
+pages.push({ path: "/tag", name: "标签" });
 pages.push({ path: "/achieves", name: "归档" });
-pages.push({ path: "/categories", name: "分类" });
+// pages.push({ path: "/categories", name: "分类" });
 pages.push({ path: "/about", name: "关于" });
 
 if (isSignin()) {

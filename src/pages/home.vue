@@ -1,5 +1,6 @@
 <template>
     <div id="home" class="mainpage">
+        <sologan text="去年今日此门中，人面桃花相映红" />
         <div class="articles" v-if="ok" v-for="(i, j) in posts" :key="j">
             <th-card
                 :id="i.id"
@@ -26,6 +27,7 @@ import Pagination from "ant-design-vue/lib/pagination"
 import "ant-design-vue/lib/pagination/style/index.css"
 import ASpin from "ant-design-vue/lib/spin"
 import "ant-design-vue/lib/spin/style/index.css"
+import Sologan from "../components/sologan.vue";
 
 interface Tag {
     id: string

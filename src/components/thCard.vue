@@ -1,8 +1,7 @@
 <template>
     <div class="th-card">
         <div
-            class="date"
-            :class="{ top: props.top > 0 }"
+            :class="dateClassName"
         >{{ props.createTime.getMonth() + 1 }}月{{ props.createTime.getDate() }}</div>
         <div class="block">
             <div class="header">
@@ -43,7 +42,12 @@ const props = defineProps({
     createTime: { type: Date, default: new Date() }
 })
 
+let dateClassName = props.top > 0 ? "top" : "date";
+
 const colors = ["pink", "red", "orange", "green", "cyan", "blue", "purple"]
+
+let topColor = "";
+if (props.top > 0) topColor = "#0080ff";
 
 const router = useRouter();
 const toDetail = () => {
@@ -68,20 +72,27 @@ onMounted(() => {
     margin-bottom: 25px;
     border-radius: 5px;
     box-shadow: 0 12px 15px 0 rgb(0 0 0 / 24%), 0 17px 50px 0 rgb(0 0 0 / 19%);
-    .date {
-        background-color: #97dffd;
+    .date,
+    .top {
         box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%),
             0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
         position: absolute;
-        top: 8px;
-        left: 0px;
-        padding: 0 16px 0 8px;
         border-start-end-radius: 16px;
         border-end-end-radius: 16px;
+    }
+    .date {
+        top: 8px;
+        left: 0px;
         color: #fff;
+        padding: 0 16px 0 8px;
+        background-color: #1ec0ff;
     }
     .top {
-        background-color: red !important;
+        top: 0px;
+        left: 8px;
+        padding: 8px 0 16px 0;
+        writing-mode: vertical-lr;
+        background-color: #0080ff;
     }
     .block {
         .header {
@@ -95,7 +106,7 @@ onMounted(() => {
     }
     .more {
         width: fit-content;
-        background: #97dffd;
+        background: #1ec0ff;
         color: #fff;
         font-size: 13px;
         padding: 1px 15px;

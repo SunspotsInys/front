@@ -1,6 +1,6 @@
 <template>
-    <div id="about" class="mainpage">
-        <sologan text="关于页面" />
+    <div id="achieves" class="mainpage">
+        <sologan text="归档页" />
     </div>
 </template>
 

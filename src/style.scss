@@ -27,3 +27,24 @@ ul {
     margin-block-start: 0;
     margin-block-end: 0;
 }
+@keyframes typing {
+	from { width: 0 }
+}
+
+@keyframes caret {
+	50% { border-right-color: transparent; }
+}
+
+.print {
+	font: bold 200% Consolas;
+    text-align: center;
+    color: white;
+    margin: auto;
+    margin-bottom: 80px;
+	width: 10ch;
+	white-space: nowrap;
+	overflow: hidden;
+	border-right: .05em solid;
+	animation: typing 4s steps(14),
+	           caret 1s steps(1);
+}
