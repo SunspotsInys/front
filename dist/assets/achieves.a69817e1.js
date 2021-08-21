@@ -1,0 +1,1 @@
+import{_ as a}from"./index.712a00df.js";import{d as s,o as d,b as e,e as t,p as o,a as i}from"./vendor.35043078.js";o("data-v-05af64d6");const p={id:"achieves",class:"mainpage"};i();var r=s({setup:s=>(s,o)=>(d(),e("div",p,[t(a,{text:"归档页"})]))});r.__scopeId="data-v-05af64d6";export default r;

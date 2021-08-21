@@ -31,8 +31,6 @@ request.interceptors.response.use(
         return response.data
     },
     error => {
-        console.log(error)
-        console.log(error.response.data.code);
         switch (error.response.data.code) {
             case 4003:
                 message.error("可以更新权限了！！！")
@@ -41,7 +39,7 @@ request.interceptors.response.use(
             default:
                 break;
         }
-        return error.response
+        return error.response.data
     }
 )
 

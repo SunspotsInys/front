@@ -30,16 +30,13 @@ export const adminGetPostList = (page: number) => {
     return request.get(`/api/admin/post?page=${page}&len=10`)
 }
 
+
 export const newPost = (post: FormState) => {
-    let tags: string[] = []
-    post.tags.forEach(elem => {
-        tags.push(elem.id)
-    });
     return request.post("/api/admin/post", {
         title: post.title,
         public: post.public,
         top: post.top,
-        tags: tags,
+        tags: post.tags,
         content: post.content
     })
 }

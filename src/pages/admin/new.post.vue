@@ -11,10 +11,33 @@
             <form-item label="标签">
                 <div class="tags">
                     <template v-for="(i, j) in post.tags" :key="j">
-                        <a-tag color="orange" :closable="true" @close="closeTag(j)">{{ i.name }}</a-tag>
+                        <a-tool-tip :title="i.name">
+                            <a-tag
+                                color="orange"
+                                :key="i.name"
+                                :closable="true"
+                                @close="delTag(j)"
+                            >{{ i.id }} - {{ i.name }} - {{ j }}</a-tag>
+                        </a-tool-tip>
                     </template>
+                    <a-drop-down :trigger="['hover', 'click']">
+                        <a-input
+                            ref="inputRef"
+                            type="text"
+                            size="small"
+                            :style="{ width: '78px' }"
+                            v-model:value="tag.name"
+                            @keyup.enter="addTag"
+                        />
+                        <template #overlay>
+                            <a-menu>
+                                <template v-for="(i, j) in existTags" :key="j">
+                                    <menu-item v-if="reg(i.name)" @click="clickTag(j)">{{ i.name }}</menu-item>
+                                </template>
+                            </a-menu>
+                        </template>
+                    </a-drop-down>
                 </div>
-                <a-input v-model:value="tag.name" @keydown.enter="addTag" />
             </form-item>
             <form-item label="内容">
                 <Textarea
@@ -50,9 +73,16 @@ import ACheckbox from "ant-design-vue/lib/checkbox"
 import "ant-design-vue/lib/checkbox/style/index.css"
 import ATag from "ant-design-vue/lib/tag"
 import "ant-design-vue/lib/tag/style/index.css"
+import AToolTip from "ant-design-vue/lib/tooltip"
+import "ant-design-vue/lib/tooltip/style/index.css"
+import ADropDown from "ant-design-vue/lib/dropdown";
+import "ant-design-vue/lib/dropdown/style/index.css";
+import AMenu, { MenuItem } from "ant-design-vue/lib/menu";
+import "ant-design-vue/lib/dropdown/style/index.css";
 import Vditor from "vditor"
 import { newPost } from "../../api/post";
 import { useRouter } from "vue-router";
+import { getAdminTag } from "../../api/tag";
 
 interface Tag {
     id: string
@@ -67,7 +97,6 @@ interface FormState {
     content: string
 }
 
-
 let post = reactive<FormState>({
     title: "",
     public: false,
@@ -81,12 +110,20 @@ let tag = reactive<Tag>({
     name: ""
 })
 
+let existTags = reactive<Tag[]>([]);
+getAdminTag().then(({ data }) => {
+    data.forEach((elem: Tag) => {
+        existTags.push({ id: elem.id, name: elem.name })
+    })
+})
+
+const reg = (str: string) => {
+    const reg = new RegExp(tag.name, "i")
+    return reg.test(str)
+}
+
 const div = document.createElement("div");
 const preview = () => {
-    const ps = document.getElementsByClassName("postcontent");
-    if (ps.length > 0) {
-        ps[0].appendChild(div);
-    }
     Vditor.preview(div, post.content)
 }
 
@@ -95,21 +132,36 @@ watch(() => post.content, (n, o) => {
 })
 
 const addTag = () => {
-    tag.id = "asdf"
-    if (tag.id !== "" && tag.name !== "") {
+    if (tag.id === "") tag.id = "0";
+    if (tag.name !== "") {
         post.tags.push({
             id: tag.id,
             name: tag.name
         });
+        tag.name = "";
     }
 }
 
-const closeTag = (ind: number) => {
-    console.log(post.tags.splice(ind, 1))
+const delTag = (i: number) => {
+    console.log(post.tags.splice(i, 1));
     console.log(post.tags)
 }
 
-onMounted(preview);
+const clickTag = (i: number) => {
+    post.tags.push({
+        id: existTags[i].id,
+        name: existTags[i].name
+    })
+    tag.name = "";
+}
+
+onMounted(() => {
+    const ps = document.getElementsByClassName("postcontent")
+    if (ps.length > 0) {
+        ps[0].appendChild(div)
+    }
+    preview()
+});
 
 const router = useRouter();
 const submit = () => {
