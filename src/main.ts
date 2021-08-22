@@ -3,10 +3,9 @@ import App from './App.vue'
 import router from "./routes"
 import store from "./store"
 
-
-
 import "./style.scss"
-import "vditor/src/assets/scss/index.scss";
+import "ant-design-vue/dist/antd.css"
+import "vditor/src/assets/scss/index.scss"
 
 createApp(App)
     .use(router)

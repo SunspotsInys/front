@@ -10,29 +10,21 @@
             </form-item>
             <form-item label="标签">
                 <div class="tags">
-                    <template v-for="(i, j) in post.tags" :key="j">
-                        <a-tool-tip :title="i.name">
-                            <a-tag
-                                color="orange"
-                                :key="i.name"
-                                :closable="true"
-                                @close="delTag(j)"
-                            >{{ i.id }} - {{ i.name }} - {{ j }}</a-tag>
-                        </a-tool-tip>
+                    <template v-for="(i, j) in tags" :key="j">
+                        <span class="tag" @click="delTag(i[0])">{{ i[0] }}</span>
                     </template>
                     <a-drop-down :trigger="['hover', 'click']">
                         <a-input
-                            ref="inputRef"
                             type="text"
                             size="small"
                             :style="{ width: '78px' }"
                             v-model:value="tag.name"
-                            @keyup.enter="addTag"
+                            @keyup.enter="addTag(tag)"
                         />
                         <template #overlay>
                             <a-menu>
                                 <template v-for="(i, j) in existTags" :key="j">
-                                    <menu-item v-if="reg(i.name)" @click="clickTag(j)">{{ i.name }}</menu-item>
+                                    <menu-item v-show="reg(i.name)" @click="addTag(i)">{{ i.name }}</menu-item>
                                 </template>
                             </a-menu>
                         </template>
@@ -58,14 +50,11 @@
 <script lang="ts" setup>
 import { onMounted, reactive, watch } from "vue";
 
-import { FormItem, Textarea } from "ant-design-vue";
-import "ant-design-vue/dist/antd.css"
-
-import AInput from "ant-design-vue/lib/input"
+import AInput, { Textarea } from "ant-design-vue/lib/input"
 import "ant-design-vue/lib/input/style/index.css"
 import message from "ant-design-vue/lib/message"
 import "ant-design-vue/lib/message/style/index.css"
-import AForm from "ant-design-vue/lib/form"
+import AForm, { FormItem } from "ant-design-vue/lib/form"
 import "ant-design-vue/lib/form/style/index.css"
 import AButton from "ant-design-vue/lib/button"
 import "ant-design-vue/lib/button/style/index.css"
@@ -88,6 +77,8 @@ interface Tag {
     id: string
     name: string
 }
+
+let tags = reactive<Map<string, string>>(new Map<string, string>());
 
 interface FormState {
     title: string
@@ -123,45 +114,28 @@ const reg = (str: string) => {
 }
 
 const div = document.createElement("div");
-const preview = () => {
-    Vditor.preview(div, post.content)
-}
-
 watch(() => post.content, (n, o) => {
-    preview();
+    Vditor.preview(div, post.content)
 })
 
-const addTag = () => {
+const addTag = (tag: Tag) => {
+    message.info("addTag")
+    if (tags.has(tag.name)) {
+        message.warn(`已经存在 ${tag.name} 的标签`)
+        return
+    }
     if (tag.id === "") tag.id = "0";
     if (tag.name !== "") {
-        post.tags.push({
-            id: tag.id,
-            name: tag.name
-        });
+        tags.set(tag.name, tag.id)
         tag.name = "";
     }
 }
 
-const delTag = (i: number) => {
-    console.log(post.tags.splice(i, 1));
-    console.log(post.tags)
+const delTag = (key: string) => {
+    console.log(tags);
+    tags.delete(key)
+    console.log(tags);
 }
-
-const clickTag = (i: number) => {
-    post.tags.push({
-        id: existTags[i].id,
-        name: existTags[i].name
-    })
-    tag.name = "";
-}
-
-onMounted(() => {
-    const ps = document.getElementsByClassName("postcontent")
-    if (ps.length > 0) {
-        ps[0].appendChild(div)
-    }
-    preview()
-});
 
 const router = useRouter();
 const submit = () => {
@@ -169,10 +143,20 @@ const submit = () => {
         message.error("请输入博文内容！！！");
         return
     }
+    for (const [name, id] of tags)
+        post.tags.push({ id: id, name: name })
     newPost(post).then((res) => {
         router.push("/admin")
     });
 }
+
+onMounted(() => {
+    const ps = document.getElementsByClassName("postcontent")
+    if (ps.length > 0) {
+        ps[0].appendChild(div)
+    }
+    Vditor.preview(div, post.content)
+});
 </script>
 
 
@@ -183,5 +167,18 @@ const submit = () => {
     margin: 24px auto;
     padding: 16px;
     border-radius: 4px;
+
+    .tag {
+        color: #d46b08;
+        background: #fff7e6;
+        border-color: #ffd591;
+        padding: 0 7px 0 7px;
+        margin-right: 4px;
+        border: 1px solid #ffd591;
+        border-radius: 2px;
+        &::after {
+            content: " ✘";
+        }
+    }
 }
 </style>
