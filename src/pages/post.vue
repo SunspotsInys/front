@@ -23,8 +23,7 @@ import { useRoute, useRouter } from "vue-router";
 import { getPost } from "../api/post";
 import ATag from "ant-design-vue/lib/tag"
 import "ant-design-vue/lib/tag/style/index.css"
-import "ant-design-vue/lib/spin/style/index.css"
-import { reactive, ref, watch } from "vue";
+import { onMounted, reactive } from "vue";
 import Vditor from 'vditor'
 
 interface Tag {
@@ -56,10 +55,7 @@ let post = reactive<Post>({
     createTime: new Date()
 })
 
-let loaded = ref(false);
-watch(loaded, (n, o) => {
-    console.log(n, o);
-})
+const div = document.createElement("div");
 getPost(route.params.pid as string)
     .then(({ data }) => {
         post.id = data.id
@@ -74,8 +70,6 @@ getPost(route.params.pid as string)
                 name: data.tags[ind].name
             })
         }
-        loaded.value = true;
-        const div = document.createElement("div");
         Vditor.preview(div, post.content, {
             mode: "light",
             anchor: 1,
@@ -83,13 +77,15 @@ getPost(route.params.pid as string)
                 toc: true,
             }
         });
-        document.getElementsByClassName("content")[0].appendChild(div);
     })
 
 const router = useRouter();
 const toTags = (id: string) => {
     router.push({ path: `/tag/${id}` });
 }
+onMounted(() => {
+    document.getElementsByClassName("content")[0].appendChild(div);
+})
 </script>
 
 
