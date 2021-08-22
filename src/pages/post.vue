@@ -15,6 +15,8 @@
             </div>
         </div>
         <div class="content"></div>
+
+        <th-comment :pid="pid" />
     </div>
 </template>
 
@@ -25,6 +27,12 @@ import ATag from "ant-design-vue/lib/tag"
 import "ant-design-vue/lib/tag/style/index.css"
 import { onMounted, reactive } from "vue";
 import Vditor from 'vditor'
+
+import ThComment from "../components/thComment.vue";
+
+
+const route = useRoute()
+const pid = route.params.pid as string;
 
 interface Tag {
     id: string
@@ -41,8 +49,6 @@ interface Post {
     createTime: Date
 }
 
-const route = useRoute()
-
 const colors = ["pink", "red", "orange", "green", "cyan", "blue", "purple"]
 
 let post = reactive<Post>({
@@ -56,7 +62,7 @@ let post = reactive<Post>({
 })
 
 const div = document.createElement("div");
-getPost(route.params.pid as string)
+getPost(pid)
     .then(({ data }) => {
         post.id = data.id
         post.top = data.top
