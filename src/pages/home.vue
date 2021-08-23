@@ -96,5 +96,8 @@ watch(cur, (n, o) => {
         padding: 30px 50px;
         margin: 20px 0;
     }
+    .ant-pagination {
+        text-align: center;
+    }
 }
 </style>
