@@ -43,10 +43,8 @@ getTag().then(({ data }) => {
     })
     wc.render()
     wc.on("element:click", (...args: any) => {
-        console.log();
-        console.log(`${args[0]}`);
-
-        router.push({ path: `/tag/${args[0].data.data.datum.num}` })
+        console.log(args[0].data.data);
+        router.push({ path: `/tag/${args[0].data.data.datum.id}` })
     })
 })
 

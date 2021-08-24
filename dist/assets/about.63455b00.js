@@ -1,0 +1,1 @@
+import{_ as a}from"./index.a07bebfb.js";import{d as e,o as s,b as t,e as d,p as o,a as f}from"./vendor.5ea85daa.js";o("data-v-8be6f5fe");const b={id:"about",class:"mainpage"};f();var p=e({setup:e=>(e,o)=>(s(),t("div",b,[d(a,{text:"关于页面"})]))});p.__scopeId="data-v-8be6f5fe";export default p;
