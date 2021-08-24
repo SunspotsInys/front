@@ -38,27 +38,31 @@
         </div>
         <a-comment v-for="(i, j) in cs" :key="j">
             <template #actions>
-                <span key="comment-nested-reply-to" @click="reply(i.id, i.name)">Reply to</span>
+                <span key="comment-nested-reply-to" @click="reply(i.id, i.name)">
+                    <i class="fa fa-reply" aria-hidden="true"></i> 回复
+                </span>
             </template>
             <template #author>
                 <a :href="i.site">{{ i.name }}</a>
             </template>
             <template #avatar>
                 <a-avatar
-                    src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                    :src="`https://gravatar.inwao.com/avatar/${Md5.hashStr(i.email)}`"
                     :alt="i.name"
                 />
             </template>
             <template #content>
-                <p v-html="i.content"></p>
+                <div v-html="i.content"></div>
             </template>
             <a-comment v-for="(k, l) in cs[j].children" :key="l">
                 <template #actions>
-                    <span @click="reply(i.id, k.name)">Reply to</span>
+                    <span @click="reply(i.id, k.name)">
+                        <i class="fa fa-reply" aria-hidden="true"></i> 回复
+                    </span>
                 </template>
                 <template #avatar>
                     <a-avatar
-                        src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                        :src="`https://gravatar.inwao.com/avatar/${Md5.hashStr(k.email)}`"
                         :alt="k.name"
                     />
                 </template>
@@ -66,7 +70,7 @@
                     <a>{{ k.name }}</a>
                 </template>
                 <template #content>
-                    <p v-html="k.content"></p>
+                    <div v-html="k.content"></div>
                 </template>
             </a-comment>
         </a-comment>
@@ -86,6 +90,7 @@ import "ant-design-vue/lib/input/style/index.css"
 import { reactive } from "@vue/reactivity"
 import { getComment, newComment } from "../api/comment"
 import Vditor from "vditor"
+import { Md5 } from 'ts-md5/dist/md5'
 
 const props = defineProps({
     pid: {
@@ -240,7 +245,7 @@ const createComment = () => {
                     it.children.unshift({
                         id: data,
                         fid: it.id,
-                        content: comment.content,
+                        content: await Vditor.md2html(comment.content),
                         createTime: new Date(),
                         name: comment.name,
                         email: comment.email,
@@ -264,6 +269,10 @@ const createComment = () => {
     padding: 8px;
     box-shadow: 0 12px 15px 0 rgb(0 0 0 / 24%), 0 17px 50px 0 rgb(0 0 0 / 19%);
     margin-top: 80px;
+
+    .ant-comment-actions {
+        margin-top: 0;
+    }
 
     #to-comment {
         border: 1px solid #f0f0f0;

@@ -10,6 +10,7 @@
     "@antv/g2plot": "^2.3.27",
     "ant-design-vue": "^2.2.2",
     "axios": "^0.21.1",
+    "ts-md5": "^1.2.9",
     "vditor": "^3.8.6",
     "vue": "^3.2.4",
     "vue-router": "4",
