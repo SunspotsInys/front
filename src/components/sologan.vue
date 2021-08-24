@@ -5,25 +5,30 @@
 
 
 <script lang="ts" setup>
-import { onMounted, ref } from "@vue/runtime-core";
+import { ref, watchEffect } from "@vue/runtime-core";
 
 const props = defineProps({
     text: { type: String, default: "" },
 })
+
+let ptext = ref("");
 let text = ref("");
-onMounted(() => {
-    const texts = props.text.split("")
-    texts.forEach((elem: string, idx: number) => {
+
+watchEffect(() => {
+    console.log(props.text);
+    ptext.value = props.text;
+    if (props.text != "") {
+        const texts = ptext.value.split("")
+        texts.forEach((elem: string, idx: number) => {
+            setTimeout(() => {
+                text.value += elem;
+            }, 250 * idx);
+        })
         setTimeout(() => {
-            text.value += elem;
-        }, 250 * idx);
-    })
-
-    setTimeout(() => {
-        text.value += " ";
-    }, 250 * (texts.length - 1));
+            text.value += " ";
+        }, 250 * (texts.length - 1));
+    }
 })
-
 </script>
 
 

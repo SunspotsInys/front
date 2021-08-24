@@ -1,7 +1,9 @@
 <template>
     <div id="post" class="mainpage">
         <div class="header">
-            <div class="title">{{ post.title }}</div>
+            <div class="title">
+                <sologan v-model:text="post.title" />
+            </div>
             <div class="time">
                 {{ post.createTime.getFullYear() }}年
                 {{ post.createTime.getMonth() + 1 }}月
@@ -27,6 +29,7 @@ import ATag from "ant-design-vue/lib/tag"
 import "ant-design-vue/lib/tag/style/index.css"
 import { onMounted, reactive } from "vue";
 import Vditor from 'vditor'
+import Sologan from "../components/sologan.vue";
 
 import ThComment from "../components/thComment.vue";
 

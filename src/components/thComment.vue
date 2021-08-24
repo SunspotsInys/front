@@ -24,7 +24,7 @@
             <div id="comment-main">
                 <a-textarea
                     v-model:value="comment.content"
-                    placeholder="textarea with clear icon"
+                    placeholder="留下你的观点来..."
                     :auto-size="{ minRows: 5 }"
                     id="comment-content"
                     allow-clear
