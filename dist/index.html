@@ -7,13 +7,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
   <title>TheDoor</title>
-  <script type="module" crossorigin src="https://cdn.jsdelivr.net/gh/SunspotsInys/front@master/dist/assets/index.a07bebfb.js"></script>
-    <link rel="modulepreload" href="https://cdn.jsdelivr.net/gh/SunspotsInys/front@master/dist/assets/vendor.5ea85daa.js">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/SunspotsInys/front@master/dist/assets/index.60dd543f.css">
+  <script type="module" crossorigin src="https://cdn.jsdelivr.net/gh/SunspotsInys/front@master/dist/assets/index.972c422b.js"></script>
+    <link rel="modulepreload" href="https://cdn.jsdelivr.net/gh/SunspotsInys/front@master/dist/assets/vendor.41b61e63.js">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/SunspotsInys/front@master/dist/assets/index.d79bc142.css">
   </head>
 
 <body>
   <div id="app"></div>
+  <div class="web-info">
+    Copyright ©
+    <template v-if="new Date().getFullYear() === 2021">2021</template>
+    <template v-else>2021-{{ new Date().getFullYear() }}</template>. All rights reserved.
+    <br />Powered By
+    <a href="https://github.com/SunspotsInys">SunspotsInys</a>.
+  </div>
   
 </body>
 

@@ -1,44 +1,40 @@
 <template>
     <div id="achieves" class="mainpage">
         <sologan text="归档页" />
-        <div>
-            <h1 @click="click">add</h1>
-            <h1 v-for="(i, j) in data" :key="j" @click="del(i[0])">{{ i[0] }} -- {{ i[1] }} -- {{ j }}</h1>
-        </div>
+        <panel :ps="posts" />
     </div>
 </template>
 
 <script lang="ts" setup>
 import { reactive } from "@vue/reactivity";
 import Sologan from "../components/sologan.vue";
+import Panel from "../components/panel.vue";
+import { getAchieve } from "../api/post";
 
-interface Tag {
-    id: number
-    name: string
+interface Post {
+    id: string
+    title: string
+    createTime: string
+    public: boolean
 }
 
-let data = reactive<Map<string, string>>(new Map())
+let posts = reactive<Post[]>([]);
 
-let cnt = 0;
-const click = () => {
-    data.set(`${cnt}`, "abc")
-    if (!data.has(`${cnt}`)) {
-        data.set(`${cnt}`, "abc")
+getAchieve().then(({ data }) => {
+    for (const it of data) {
+        posts.push({
+            id: it.id,
+            title: it.title,
+            createTime: it.createTime,
+            public: it.public
+        })
     }
-    cnt++
-}
-const del = (key: string) => {
-    data.delete(key)
-}
+})
 
 </script>
 
 
 <style lang="scss" scoped>
-#achieves {
-    div {
-        text-align: center;
-        background-color: white;
-    }
-}
+// #achieves {
+// }
 </style>

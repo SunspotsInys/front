@@ -11,6 +11,13 @@
 
 <body>
   <div id="app"></div>
+  <div class="web-info">
+    Copyright ©
+    <template v-if="new Date().getFullYear() === 2021">2021</template>
+    <template v-else>2021-{{ new Date().getFullYear() }}</template>. All rights reserved.
+    <br />Powered By
+    <a href="https://github.com/SunspotsInys">SunspotsInys</a>.
+  </div>
   <script type="module" src="/src/main.ts"></script>
 </body>
 

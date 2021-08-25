@@ -1,6 +1,5 @@
 <template>
     <div>{{ text }}</div>
-    <h1></h1>
 </template>
 
 
@@ -15,7 +14,6 @@ let ptext = ref("");
 let text = ref("");
 
 watchEffect(() => {
-    console.log(props.text);
     ptext.value = props.text;
     if (props.text != "") {
         const texts = ptext.value.split("")

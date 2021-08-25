@@ -9,6 +9,15 @@ body {
     background-attachment: fixed;
     background-position-x: center;
     background-size: auto 70%;
+    display: grid;
+    grid-template-rows: 1fr auto;
+
+    a {
+        color: #3c4858;
+        text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+    }
 }
 
 .mainpage {

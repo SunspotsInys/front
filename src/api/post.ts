@@ -40,3 +40,7 @@ export const newPost = (post: FormState) => {
         content: post.content
     })
 }
+
+export const getAchieve = () => {
+    return request.get("/api/achieve")
+}
