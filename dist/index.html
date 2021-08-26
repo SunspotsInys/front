@@ -7,19 +7,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
   <title>TheDoor</title>
-  <script type="module" crossorigin src="https://cdn.jsdelivr.net/gh/SunspotsInys/front@master/dist/assets/index.972c422b.js"></script>
+  <script type="module" crossorigin src="https://cdn.jsdelivr.net/gh/SunspotsInys/front@master/dist/assets/index.1f71e942.js"></script>
     <link rel="modulepreload" href="https://cdn.jsdelivr.net/gh/SunspotsInys/front@master/dist/assets/vendor.41b61e63.js">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/SunspotsInys/front@master/dist/assets/index.d79bc142.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/SunspotsInys/front@master/dist/assets/index.1881c4bf.css">
   </head>
 
 <body>
   <div id="app"></div>
   <div class="web-info">
     Copyright ©
-    <template v-if="new Date().getFullYear() === 2021">2021</template>
-    <template v-else>2021-{{ new Date().getFullYear() }}</template>. All rights reserved.
+    <script>
+      let t = new Date();
+      if (t.getUTCFullYear() === 2021) {
+        document.write("2021");
+      } else {
+        document.write(`2021-${t.getUTCFullYear()}`)
+      }
+    </script>. All rights reserved.
     <br />Powered By
-    <a href="https://github.com/SunspotsInys">SunspotsInys</a>.
+    <a href="https://github.com/SunspotsInys"><i class="fa fa-github" aria-hidden="true"></i> SunspotsInys</a>.
   </div>
   
 </body>

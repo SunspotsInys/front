@@ -3,7 +3,7 @@
         <sologan text="关于页面" />
         <div class="info">
             <img
-                src="https://gitee.com/SunspotsInys/demo/raw/master/imGo/1685B4D357ACCF94.jpg"
+                src="../assets/avatar.jpg"
                 alt="img"
             />
             <span>一个Go语言新手程序员，对未知充满向往</span>
