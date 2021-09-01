@@ -27,7 +27,7 @@ export const getPost = (pid: string) => {
 }
 
 export const adminGetPostList = (page: number) => {
-    return request.get(`/api/admin/post?page=${page}&len=10`)
+    return request.get(`/api/admin/post?page=${page}&len=15`)
 }
 
 

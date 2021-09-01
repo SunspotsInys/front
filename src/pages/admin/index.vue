@@ -1,23 +1,38 @@
 <template>
-    <div id="admin" class="mainpage" >
+    <div id="admin" class="mainpage">
         <div id="sys-info"></div>
-        <a-table :dataSource="postListData" :columns="postListColumns" :pagination="pagination">
-            <template #name="{ text }">
-                <a :href="`/post/${1}`">{{ text }}</a>
-            </template>
-        </a-table>
-        <a-button type="primary" :size="'large'" @click="toNewPost">新建博文</a-button>
+
+        <div class="posts">
+            <table>
+                <tr>
+                    <th>标题</th>
+                    <th>发表时间</th>
+                </tr>
+                <tr v-for="(i, j) in postListData" :key="j">
+                    <td>
+                        <a :href="`/post/${1}`">{{ i.title }}</a>
+                        <span>
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </span>
+                    </td>
+                    <td>{{ i.createTime }}</td>
+                </tr>
+            </table>
+            <a-pagination size="small" :total="tot" v-model:current="cur" />
+            <a-button type="primary" :size="'large'" @click="toNewPost">新建博文</a-button>
+        </div>
     </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive, ref } from "vue";
-import ATable from "ant-design-vue/lib/table"
-import "ant-design-vue/lib/table/style/index.css";
+import { onMounted, reactive, ref, watch } from "vue";
 import AButton from "ant-design-vue/lib/button"
 import "ant-design-vue/lib/button/style/index.css";
-import message from "ant-design-vue/lib/message"
-import "ant-design-vue/lib/message/style/index.css"
+import APagination from "ant-design-vue/lib/pagination"
+import "ant-design-vue/lib/pagination/style/index.css";
+// import message from "ant-design-vue/lib/message"
+// import "ant-design-vue/lib/message/style/index.css"
 import { adminGetPostList, getPostTot } from "../../api/post";
 import { useRouter } from "vue-router";
 import { DualAxes } from "@antv/g2plot";
@@ -32,13 +47,7 @@ interface PostSimplicity {
 
 let postListData = reactive<PostSimplicity[]>([]);
 
-let postListColumns = [
-    { title: '标题', dataIndex: 'title', key: 'title', slots: { customRender: 'title' } },
-    { title: '发表时间', dataIndex: 'createTime', key: 'createTime' }
-];
-
-
-let curPage = ref(1);
+let cur = ref(1);
 const getPostList = (page: number) => {
     adminGetPostList(page).then(({ data }) => {
         while (postListData.length > 0)
@@ -53,28 +62,24 @@ const getPostList = (page: number) => {
         });
     })
 }
+let tot = ref(0);
 const getTotPost = () => {
     getPostTot().then(({ data }) => {
-        pagination.total = data;
+        tot.value = data;
     })
 }
 getTotPost();
 
-let pagination = reactive({
-    total: 0,
-    defaultPageSize: 10,
-    change: (cur: number, size: number) => {
-        message.info(`${cur}`);
-        curPage.value = cur;
-        getPostList(cur);
-    },
+getPostList(cur.value);
+watch(() => cur.value, (n, o) => {
+    getPostList(n)
 })
-getPostList(curPage.value);
 
 const router = useRouter()
 const toNewPost = () => {
     router.push("/newPost")
 }
+
 interface Percent {
     time: string
     percent: number
@@ -158,8 +163,31 @@ onMounted(() => {
         background-color: white;
         padding: 8px;
     }
-    .ant-table-wrapper {
-        margin-top: 16px;
+    .posts {
+        background-color: white;
+        table {
+            width: 100%;
+            tr {
+                th,
+                td {
+                    padding: 16px;
+                }
+                td {
+                    &:nth-child(1) {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        span {
+                            display: flex;
+                            gap: 8px;
+                        }
+                    }
+                }
+                &:nth-child(odd) {
+                    background-color: rgba(0, 0, 0, 0.02);
+                }
+            }
+        }
     }
 }
 </style>
