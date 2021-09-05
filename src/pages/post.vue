@@ -103,6 +103,7 @@ onMounted(() => {
     width: 80%;
     margin: 8% auto 8% auto;
     color: white;
+    position: relative;
     .header {
         text-align: center;
         .title {

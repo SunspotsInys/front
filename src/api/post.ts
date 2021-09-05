@@ -7,6 +7,7 @@ interface Tag {
 }
 
 interface FormState {
+    id: string
     title: string
     public: boolean
     top: boolean
@@ -43,4 +44,19 @@ export const newPost = (post: FormState) => {
 
 export const getAchieve = () => {
     return request.get("/api/achieve")
+}
+
+export const updatePost = (post: FormState) => {
+    return request.patch("/api/admin/post", {
+        id: post.id,
+        title: post.title,
+        public: post.public,
+        top: post.top,
+        tags: post.tags,
+        content: post.content
+    })
+}
+
+export const delPost = (pid: string) => {
+    return request.delete(`/api/admin/post/${pid}`)
 }

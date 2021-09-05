@@ -10,10 +10,14 @@
                 </tr>
                 <tr v-for="(i, j) in postListData" :key="j">
                     <td>
-                        <a :href="`/post/${1}`">{{ i.title }}</a>
+                        <a :href="`/post/${i.id}`">{{ i.title }}</a>
                         <span>
-                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                            <i class="fa fa-times" aria-hidden="true"></i>
+                            <i
+                                class="fa fa-pencil-square-o"
+                                aria-hidden="true"
+                                @click="toEdit(i.id)"
+                            ></i>
+                            <i class="fa fa-times" aria-hidden="true" @click="deletePost(i.id, i.title)"></i>
                         </span>
                     </td>
                     <td>{{ i.createTime }}</td>
@@ -31,12 +35,13 @@ import AButton from "ant-design-vue/lib/button"
 import "ant-design-vue/lib/button/style/index.css";
 import APagination from "ant-design-vue/lib/pagination"
 import "ant-design-vue/lib/pagination/style/index.css";
-// import message from "ant-design-vue/lib/message"
-// import "ant-design-vue/lib/message/style/index.css"
-import { adminGetPostList, getPostTot } from "../../api/post";
+import { adminGetPostList, getPostTot, delPost } from "../../api/post";
 import { useRouter } from "vue-router";
 import { DualAxes } from "@antv/g2plot";
 import { getToken } from "../../store";
+import message from "ant-design-vue/lib/message"
+import "ant-design-vue/lib/message/style/index.css"
+
 
 interface PostSimplicity {
     key: string
@@ -78,6 +83,16 @@ watch(() => cur.value, (n, o) => {
 const router = useRouter()
 const toNewPost = () => {
     router.push("/newPost")
+}
+const toEdit = (pid: string) => {
+    router.push(`/edit/${pid}`)
+}
+
+const deletePost = (id: string, title: string) => {
+    delPost(id).then(() => {
+        message.success("成功删除博文`" + title + "`")
+        getPostList(cur.value);
+    })
 }
 
 interface Percent {

@@ -1,5 +1,5 @@
 <template>
-    <div id="newpost">
+    <div id="edit">
         <a-form>
             <form-item label="标题">
                 <a-input v-model:value="post.title" />
@@ -40,7 +40,7 @@
                 <div class="postcontent"></div>
             </form-item>
             <form-item label>
-                <a-button @click="submit">提交</a-button>
+                <a-button @click="update">提交</a-button>
             </form-item>
         </a-form>
     </div>
@@ -69,8 +69,8 @@ import "ant-design-vue/lib/dropdown/style/index.css";
 import AMenu, { MenuItem } from "ant-design-vue/lib/menu";
 import "ant-design-vue/lib/dropdown/style/index.css";
 import Vditor from "vditor"
-import { newPost } from "../../api/post";
-import { useRouter } from "vue-router";
+import { getPost, updatePost } from "../../api/post";
+import { useRoute, useRouter } from "vue-router";
 import { getAdminTag } from "../../api/tag";
 
 interface Tag {
@@ -121,6 +121,7 @@ watch(() => post.content, (n, o) => {
 })
 
 const addTag = (tag: Tag) => {
+    message.info("addTag")
     if (tags.has(tag.name)) {
         message.warn(`已经存在 ${tag.name} 的标签`)
         return
@@ -138,15 +139,31 @@ const delTag = (key: string) => {
     console.log(tags);
 }
 
+const route = useRoute()
+const pid = route.params.pid as string;
+getPost(pid).then(({ data }) => {
+    post.id = data.id
+    post.title = data.title
+    post.public = data.public
+    post.content = data.content
+    post.top = false
+    if (data.top !== 0) {
+        post.top = true;
+    }
+    for (const it of data.tags) {
+        tags.set(it.name, it.id)
+    }
+})
+
 const router = useRouter();
-const submit = () => {
+const update = () => {
     if (post.title === "" || post.content === "") {
         message.error("请输入博文内容！！！");
         return
     }
     for (const [name, id] of tags)
         post.tags.push({ id: id, name: name })
-    newPost(post).then((res) => {
+    updatePost(post).then((_res) => {
         router.push("/admin")
     });
 }

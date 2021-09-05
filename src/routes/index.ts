@@ -10,7 +10,8 @@ const routes: Array<RouteRecordRaw> = [
     { path: "/achieves", name: "Achieves", component: () => import("../pages/achieves.vue") },
     { path: "/signin", name: "Signin", component: () => import("../pages/signin.vue") },
     { path: "/admin", name: "Admin", component: () => import("../pages/admin/index.vue") },
-    { path: "/newpost", name: "NewPost", component: () => import("../pages/admin/new.post.vue") }
+    { path: "/newpost", name: "NewPost", component: () => import("../pages/admin/new.post.vue") },
+    { path: "/edit/:pid(\\d+)", name: "Edit", component: () => import("../pages/admin/edit.vue") }
 ];
 
 const router = createRouter({
