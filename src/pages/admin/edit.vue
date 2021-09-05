@@ -121,7 +121,6 @@ watch(() => post.content, (n, o) => {
 })
 
 const addTag = (tag: Tag) => {
-    message.info("addTag")
     if (tags.has(tag.name)) {
         message.warn(`已经存在 ${tag.name} 的标签`)
         return
