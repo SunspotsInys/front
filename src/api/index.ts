@@ -4,9 +4,10 @@ import "ant-design-vue/lib/message/style/index.css";
 
 import { getToken, isSignin } from "../store";
 import { clearToken } from "../store";
+import { useRouter } from "vue-router";
 
 const request = axios.create()
-
+const router = useRouter();
 
 request.interceptors.request.use(
     config => {
@@ -35,6 +36,7 @@ request.interceptors.response.use(
             case 4003:
                 message.error("可以更新权限了！！！")
                 clearToken();
+                window.location.href="/signin"
                 break;
             default:
                 break;

@@ -129,7 +129,7 @@ const ws = new WebSocket(import.meta.env.VITE_WS_URL + "/api/admin/sysinfo?token
         console.log("ws close...")
     }
     ws.onmessage = (evt) => {
-        if (data2.length >= 1440) {
+        if (data2.length >= 100) {
             data1.shift();
             data1.shift();
             data2.shift();
