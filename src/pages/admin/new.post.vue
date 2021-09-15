@@ -154,7 +154,12 @@ const submit = () => {
 onMounted(() => {
     const ps = document.getElementsByClassName("postcontent")
     if (ps.length > 0) {
-        ps[0].appendChild(div)
+        const content = ps[0];
+        while (content.hasChildNodes()) {
+            if (content.firstChild)
+                content.removeChild(content.firstChild)
+        }
+        content.appendChild(div)
     }
     Vditor.preview(div, post.content)
 });

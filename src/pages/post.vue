@@ -93,7 +93,15 @@ const toTags = (id: string) => {
     router.push({ path: `/tag/${id}` });
 }
 onMounted(() => {
-    document.getElementsByClassName("content")[0].appendChild(div);
+    const c = document.getElementsByClassName("content");
+    if (c.length > 0) {
+        const content = c[0];
+        while (content.hasChildNodes()) {
+            if (content.firstChild)
+                content.removeChild(content.firstChild);
+        }
+        content.appendChild(div);
+    }
 })
 </script>
 
